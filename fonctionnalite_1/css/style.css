@@ -1,0 +1,197 @@
+/* --- CHARTE GRAPHIQUE (Variables CSS) --- */
+:root {
+    --primary-blue: #12255B;
+    --text-grey: #8B7280;
+    --bg-light: #F5F5F5;
+    --white: #FFFFFF;
+}
+
+/* --- RÉINITIALISATION --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Assistant', 'Open Sans', sans-serif;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    background-color: var(--bg-light);
+    overflow: hidden; /* Empêche le scroll global, seul le contenu scrollera si besoin */
+}
+
+/* --- LE MENU LATÉRAL (SIDEBAR) --- */
+.sidebar {
+    width: 250px;
+    background-color: var(--primary-blue);
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    padding: 30px 0;
+}
+
+.sidebar h2 {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0 30px;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+}
+
+.sidebar nav ul {
+    list-style: none;
+}
+
+.sidebar nav ul li a {
+    display: flex;
+    align-items: center;
+    padding: 15px 30px;
+    color: #A0ABC0; /* Gris bleuté pour les liens inactifs */
+    text-decoration: none;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+/* Le lien actif (Page actuelle) */
+.sidebar nav ul li.active a {
+    color: var(--white);
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-left: 4px solid var(--white);
+}
+
+.sidebar nav ul li a:hover {
+    color: var(--white);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.icon {
+    margin-right: 15px;
+    font-size: 18px;
+}
+
+/* --- LE CONTENU PRINCIPAL --- */
+.main-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* La section haute avec l'image (Hero Section) */
+.hero-section {
+    height: 60%;
+    /* Image par défaut (à remplacer par ta propre image locale plus tard) */
+    background-image: url('https://images.unsplash.com/photo-1593941707882-a5bba14938c7?q=80&w=2000&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px;
+}
+
+/* Un filtre sombre sur l'image pour que le texte blanc soit toujours lisible */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(18, 37, 91, 0.6); /* Ton bleu marine en transparent */
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    color: var(--white);
+    max-width: 800px;
+}
+
+.hero-content h1 {
+    font-size: 42px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.hero-content p {
+    font-size: 18px;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.btn-primary {
+    display: inline-block;
+    background-color: var(--primary-blue);
+    color: var(--white);
+    padding: 15px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    border: 2px solid white;
+    transition: background 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: white;
+    color: var(--primary-blue);
+}
+
+/* --- LA SECTION DES CARTES (En bas) --- */
+.cards-section {
+    height: 40%;
+    background-color: var(--bg-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding: 0 40px;
+    position: relative;
+    top: -40px; /* Fait remonter les cartes légèrement sur l'image */
+    z-index: 3;
+}
+
+.card {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 15px;
+    width: 300px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05); /* Ombre douce */
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Petit effet de soulèvement au survol */
+}
+
+.card-icon {
+    font-size: 30px;
+    margin-bottom: 15px;
+    color: var(--primary-blue);
+}
+
+.card h3 {
+    color: var(--primary-blue);
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: var(--text-grey);
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* --- FOOTER --- */
+.main-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    background: transparent;
+    color: #A0ABC0;
+    font-size: 12px;
+}

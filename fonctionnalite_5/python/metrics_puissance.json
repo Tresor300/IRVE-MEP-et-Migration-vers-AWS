@@ -1,0 +1,26 @@
+{
+  "rf_mae": 27.1134,
+  "rf_rmse": 45.4929,
+  "rf_r2": 0.6683,
+  "svm_mae": 46.01,
+  "svm_rmse": 72.0586,
+  "svm_r2": 0.1678,
+  "feature_importances": {
+    "Nb points de charge": 0.18094,
+    "Prise Type 2": 0.053371,
+    "Combo CCS": 0.042083,
+    "CHAdeMO": 0.065835,
+    "Paiement à l'acte": 0.009791,
+    "Condition accès": 0.046078,
+    "Réservation": 0.08392,
+    "Accessibilité PMR": 0.031293,
+    "Restriction gabarit": 0.47281,
+    "Horaires": 0.01388
+  },
+  "target_min": 22.08,
+  "target_max": 400.0,
+  "target_mean": 112.8,
+  "n_test": 957,
+  "trained_at": "2026-06-23T16:00:32.841368+00:00",
+  "type": "puissance"
+}

@@ -1,0 +1,346 @@
+/* =============================================================
+   clusters.css
+   Fonctionnalité 4 — Prédiction des clusters géographiques
+   Charte graphique INFRA-CHARGE
+   ============================================================= */
+
+/* ── Variables (charte graphique projet) ── */
+:root {
+    --primary-blue: #12255B;
+    --text-grey:    #8B7280;
+    --bg-light:     #F5F5F5;
+    --white:        #FFFFFF;
+
+    /* Palette clusters */
+    --c0: #00C48C;
+    --c1: #FF6B6B;
+    --c2: #FFD166;
+    --c3: #A78BFA;
+    --c4: #38BDF8;
+    --c5: #FB923C;
+    --c6: #4ADE80;
+    --c7: #F472B6;
+    --c8: #FACC15;
+    --c9: #67E8F9;
+}
+
+/* ── Reset ── */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Assistant', 'Open Sans', sans-serif;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    background-color: var(--bg-light);
+    overflow: hidden;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+    width: 250px;
+    background-color: var(--primary-blue);
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    padding: 30px 0;
+    flex-shrink: 0;
+}
+
+.sidebar h2 {
+    font-size: 17px;
+    font-weight: bold;
+    padding: 0 30px;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+}
+
+.sidebar nav ul {
+    list-style: none;
+}
+
+.sidebar nav ul li a {
+    display: flex;
+    align-items: center;
+    padding: 15px 30px;
+    color: #A0ABC0;
+    text-decoration: none;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.sidebar nav ul li.active a {
+    color: var(--white);
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-left: 4px solid var(--white);
+}
+
+.sidebar nav ul li a:hover {
+    color: var(--white);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.icon {
+    margin-right: 15px;
+    font-size: 18px;
+    display: flex;
+}
+
+/* ── Contenu principal ── */
+.main-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ── En-tête de page ── */
+.page-header {
+    background: var(--white);
+    border-bottom: 1px solid #E2E8F0;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.page-header-left h1 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+}
+
+.page-header-left p {
+    font-size: 0.82rem;
+    color: var(--text-grey);
+    margin-top: 2px;
+}
+
+/* ── Barre de statistiques ── */
+.stats-bar {
+    background: var(--primary-blue);
+    padding: 10px 32px;
+    display: none; /* affichée par JS après chargement */
+    gap: 2.5rem;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.stats-bar .stat {
+    display: flex;
+    flex-direction: column;
+}
+
+.stats-bar .stat-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+}
+
+.stats-bar .stat-label {
+    font-size: 0.72rem;
+    color: #A0ABC0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ── Zone carte + légende ── */
+.content-area {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+/* ── Carte Leaflet ── */
+#map {
+    flex: 1;
+    min-width: 0;
+}
+
+/* ── Panneau légende ── */
+.legend-panel {
+    width: 230px;
+    background: var(--white);
+    border-left: 1px solid #E2E8F0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.legend-panel h3 {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 11px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid #F1F5F9;
+    transition: background 0.15s;
+    user-select: none;
+}
+
+.legend-item:hover {
+    background: #F8FAFC;
+}
+
+.legend-item.hidden-cluster {
+    opacity: 0.4;
+}
+
+.legend-dot {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 2px solid rgba(0, 0, 0, 0.12);
+}
+
+.legend-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+}
+
+.legend-count {
+    font-size: 0.73rem;
+    color: var(--text-grey);
+    margin-top: 1px;
+}
+
+.legend-toggle {
+    margin-left: auto;
+    font-size: 0.7rem;
+    color: var(--text-grey);
+}
+
+/* ── Overlay de chargement ── */
+#loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(18, 37, 91, 0.92);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    z-index: 9999;
+}
+
+.spinner {
+    width: 52px;
+    height: 52px;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #00C48C;
+    border-radius: 50%;
+    animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+#loading-overlay p {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.9rem;
+}
+
+#loading-overlay strong {
+    color: #00C48C;
+}
+
+/* ── Overlay d'erreur ── */
+#error-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--bg-light);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    z-index: 9998;
+}
+
+#error-overlay .error-icon {
+    font-size: 2.5rem;
+}
+
+#error-overlay p {
+    color: #DC2626;
+    font-size: 0.95rem;
+    max-width: 400px;
+    text-align: center;
+}
+
+#error-overlay a {
+    background: var(--primary-blue);
+    color: var(--white);
+    padding: 0.55rem 1.4rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.88rem;
+}
+
+/* ── Popup Leaflet ── */
+.leaflet-popup-content-wrapper {
+    border-radius: 10px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+}
+
+.popup-title {
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: var(--primary-blue);
+    margin-bottom: 0.5rem;
+}
+
+.popup-row {
+    font-size: 0.77rem;
+    color: var(--text-grey);
+    margin: 3px 0;
+}
+
+.popup-row b {
+    color: #1E293B;
+}
+
+.popup-badge {
+    display: inline-block;
+    margin-top: 0.45rem;
+    padding: 2px 12px;
+    border-radius: 20px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--white);
+}
+
+.btn-predict {
+    display: inline-block;
+    background-color: #1a3a5c;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: background 0.2s;
+}
+.btn-predict:hover {
+    background-color: #2563eb;
+}

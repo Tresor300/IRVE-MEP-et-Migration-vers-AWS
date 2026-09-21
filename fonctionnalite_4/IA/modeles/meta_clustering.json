@@ -1,0 +1,9 @@
+{
+  "k_optimal": 6,
+  "col_lat": "consolidated_latitude",
+  "col_lon": "consolidated_longitude",
+  "silhouette": 0.4961,
+  "calinski_harabasz": 5431.47,
+  "davies_bouldin": 0.7278,
+  "n_bornes": 4783
+}

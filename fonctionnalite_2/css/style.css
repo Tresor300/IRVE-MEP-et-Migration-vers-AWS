@@ -1,0 +1,190 @@
+/* --- CHARTE GRAPHIQUE (Variables CSS) --- */
+:root {
+    --primary-blue: #12255B;
+    --text-grey: #8B7280;
+    --bg-light: #F5F5F5;
+    --white: #FFFFFF;
+}
+
+/* --- RÉINITIALISATION --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Assistant', 'Open Sans', sans-serif;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    background-color: var(--bg-light);
+    overflow: hidden;
+}
+
+/* =========================================
+   1. LE MENU LATÉRAL (SIDEBAR) 
+========================================= */
+.sidebar {
+    width: 250px;
+    background-color: var(--primary-blue);
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    padding: 30px 0;
+    z-index: 1000; /* Garde le menu toujours au premier plan */
+}
+
+.sidebar h2 {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0 30px;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+}
+
+.sidebar nav ul {
+    list-style: none;
+}
+
+.sidebar nav ul li a {
+    display: flex;
+    align-items: center;
+    padding: 15px 30px;
+    color: #A0ABC0;
+    text-decoration: none;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.sidebar nav ul li.active a {
+    color: var(--white);
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-left: 4px solid var(--white);
+}
+
+.sidebar nav ul li a:hover {
+    color: var(--white);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.icon {
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+}
+
+/* =========================================
+   2. STYLES GLOBAUX (Accueil, etc.) - Inutilisés sur la F2 mais présents
+========================================= */
+.main-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100vh;
+}
+
+.hero-section {
+    height: 60%;
+    background-image: url('https://images.unsplash.com/photo-1593941707882-a5bba14938c7?q=80&w=2000&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px;
+}
+
+/* ... (je garde les autres classes de l'accueil pour ne rien casser au cas où on fusionne plus tard) ... */
+
+/* =========================================
+   3. STYLES SPÉCIFIQUES : VISUALISATION (Fonctionnalité 2)
+========================================= */
+#map {
+    width: 100%;
+    flex: 1; /* Permet à la carte de prendre l'espace restant sans écraser le menu */
+    z-index: 1;
+    min-height: 100vh; 
+}
+
+.side-panel {
+    position: absolute;
+    top: 20px;
+    right: 20px; /* On le colle à droite */
+    bottom: 20px;
+    width: 450px;
+    background-color: rgba(255, 255, 255, 0.95); /* Blanc légèrement transparent */
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    z-index: 500; /* Au-dessus de la carte */
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.side-panel h2 {
+    font-family: 'Assistant', sans-serif;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+.table-container {
+    flex: 1;
+    overflow-y: auto;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.table-container th {
+    position: sticky;
+    top: 0;
+    background-color: var(--primary-blue);
+    color: white;
+    padding: 12px 10px;
+    text-align: left;
+}
+
+.table-container td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+}
+
+/* Limite la hauteur du tableau pour laisser place au bouton */
+.table-container {
+    flex: 1;
+    overflow-y: auto;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    max-height: calc(100% - 80px);
+}
+
+/* Bouton Prédire les clusters */
+.btn-clusters {
+    display: inline-block;
+    background-color: var(--primary-blue);
+    color: white;
+    padding: 12px 28px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+    margin-top: 16px;
+    transition: background 0.3s;
+}
+
+.btn-clusters:hover {
+    background-color: #2563eb;
+    color: white;
+}

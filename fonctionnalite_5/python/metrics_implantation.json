@@ -1,0 +1,32 @@
+{
+  "rf_accuracy": 0.9822,
+  "rf_precision": 0.9823,
+  "rf_recall": 0.9822,
+  "rf_f1": 0.9822,
+  "svm_accuracy": 0.861,
+  "svm_precision": 0.8638,
+  "svm_recall": 0.861,
+  "svm_f1": 0.8609,
+  "feature_importances": {
+    "Nb points de charge": 0.065863,
+    "Puissance nominale": 0.115374,
+    "Prise Type 2": 0.063939,
+    "Combo CCS": 0.05354,
+    "CHAdeMO": 0.035043,
+    "Paiement à l'acte": 0.010297,
+    "Condition accès": 0.075425,
+    "Réservation": 0.072271,
+    "Accessibilité PMR": 0.105326,
+    "Restriction gabarit": 0.385927,
+    "Horaires": 0.016995
+  },
+  "classes": [
+    "Parking privé à usage public",
+    "Parking public",
+    "Station dédiée à la recharge rapide",
+    "Voirie"
+  ],
+  "n_test": 957,
+  "trained_at": "2026-06-23T16:00:30.473375+00:00",
+  "type": "implantation"
+}
