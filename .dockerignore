@@ -1,0 +1,8 @@
+.git
+Dockerfile
+INSTALLATION_XAMPP.md
+.dockerignore
+bdd
+partie_1
+phpinfo.php
+.env
