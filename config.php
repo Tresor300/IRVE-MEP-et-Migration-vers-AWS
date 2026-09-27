@@ -34,19 +34,45 @@ define('EST_WINDOWS', DIRECTORY_SEPARATOR === '\\');
 ===================================================== */
 
 /*
-   XAMPP en local : utilisateur root sans mot de passe.
+   Chaque constante lit d'abord la variable d'environnement de MÊME NOM, et
+   retombe sur la valeur XAMPP locale si celle-ci n'est pas définie. Le code
+   fonctionne donc sans rien modifier ici, que ce soit sur ce PC ou sur AWS
+   (RDS) où les identifiants sont injectés dans l'environnement du conteneur :
 
+       docker run -e DB_HOST=irve.xxxx.rds.amazonaws.com -e DB_USER=admin \
+                  -e DB_PASS=... -e DB_NAME=tv_fowet ...
+
+   C'est aussi ce qui évite d'écrire un mot de passe de production dans un
+   fichier suivi par Git.
+
+   Valeurs de repli (XAMPP en local) : utilisateur root sans mot de passe.
    On utilise 127.0.0.1 plutôt que "localhost" : sous Windows, "localhost"
    peut être résolu en IPv6 (::1) alors que MySQL n'écoute qu'en IPv4, ce qui
    provoque une longue attente suivie d'une erreur de connexion.
-
 */
-define('DB_HOST',    '127.0.0.1');
-define('DB_PORT',    3306);
-define('DB_NAME',    'tv_fowet');
-define('DB_USER',    'root');
-define('DB_PASS',    '');
-define('DB_CHARSET', 'utf8mb4');
+
+/**
+ * Valeur d'une variable d'environnement, ou valeur de repli si elle est absente.
+ *
+ * getenv() renvoie false — et seulement dans ce cas — quand la variable
+ * n'existe pas : c'est ce false qui déclenche le repli. Une variable définie
+ * mais vide est donc respectée (un mot de passe vide reste un choix délibéré).
+ *
+ * Définie ici, juste avant les constantes qui l'utilisent.
+ */
+function env_ou_defaut(string $nom, string $defaut): string
+{
+    $valeur = getenv($nom);
+
+    return $valeur === false ? $defaut : $valeur;
+}
+
+define('DB_HOST',    env_ou_defaut('DB_HOST',    '127.0.0.1'));
+define('DB_PORT',    (int) env_ou_defaut('DB_PORT', '3306'));   // les variables d'env sont des chaînes
+define('DB_NAME',    env_ou_defaut('DB_NAME',    'tv_fowet'));
+define('DB_USER',    env_ou_defaut('DB_USER',    'root'));
+define('DB_PASS',    env_ou_defaut('DB_PASS',    ''));
+define('DB_CHARSET', env_ou_defaut('DB_CHARSET', 'utf8mb4'));
 
 
 /* =====================================================
