@@ -1,0 +1,26 @@
+name: app
+services:
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    depends_on:
+      - bdd
+    environment:
+      DB_HOST: bdd
+      DB_NAME: tv_fowet
+      DB_USER: app_user
+      DB_PASS: oKH5nfm45zpakEkE
+  bdd:
+    image: mariadb:11.4
+    
+    environment:
+      MARIADB_ROOT_PASSWORD: klsut+c1b5ZpZgbl
+      MARIADB_DATABASE: tv_fowet
+      MARIADB_USER: app_user
+      MARIADB_PASSWORD: oKH5nfm45zpakEkE
+    volumes:
+      - ./bdd/tv_fowet_dump.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - donnees_bdd:/var/lib/mysql
+volumes:
+  donnees_bdd:
