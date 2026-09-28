@@ -10,15 +10,15 @@ services:
       DB_HOST: bdd
       DB_NAME: tv_fowet
       DB_USER: app_user
-      DB_PASS: oKH5nfm45zpakEkE
+      DB_PASS: ${APP_DB_PASSWORD}
   bdd:
     image: mariadb:11.4
     
     environment:
-      MARIADB_ROOT_PASSWORD: klsut+c1b5ZpZgbl
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
       MARIADB_DATABASE: tv_fowet
       MARIADB_USER: app_user
-      MARIADB_PASSWORD: oKH5nfm45zpakEkE
+      MARIADB_PASSWORD: ${APP_DB_PASSWORD}
     volumes:
       - ./bdd/tv_fowet_dump.sql:/docker-entrypoint-initdb.d/init.sql:ro
       - donnees_bdd:/var/lib/mysql
