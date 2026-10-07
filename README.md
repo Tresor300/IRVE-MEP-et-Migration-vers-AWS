@@ -57,3 +57,47 @@ redémarrage. L'option `-v` supprimerait ce volume, donc la base.
 L'application joint la base par le nom du service `bdd`, sur le réseau
 interne de Docker. Tous les identifiants sont lus dans des variables
 d'environnement, aucun n'est écrit dans le code.
+
+## Déploiement sur Kubernetes (local)
+
+Prérequis : Docker, kubectl, k3d.
+
+1. Créer le cluster et y importer l'image :
+
+```bash
+k3d cluster create irve -p "8081:80@loadbalancer"
+docker build -t irve-app .
+k3d image import irve-app:latest -c irve
+```
+
+2. Créer le namespace et les deux objets qui ne viennent pas d'un fichier :
+
+```bash
+kubectl create namespace recette
+
+kubectl create secret generic irve-db -n recette \
+  --from-literal=MARIADB_ROOT_PASSWORD='...' \
+  --from-literal=APP_DB_PASSWORD='...'
+
+kubectl create configmap irve-dump -n recette \
+  --from-file=init.sql=bdd/tv_fowet_dump.sql
+```
+
+3. Déployer :
+
+```bash
+kubectl apply -f k8s/ -n recette
+kubectl get pods -n recette
+```
+
+4. Accéder à l'application :
+
+```bash
+kubectl port-forward -n recette service/irve-app 8083:80
+```
+
+Puis http://localhost:8083/fonctionnalite_1/accueil.php
+
+Les fichiers de `k8s/` ne contiennent aucun namespace : la cible est choisie
+à la commande avec `-n`. Les mêmes fichiers servent donc pour `recette` et
+`production`.

@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: irve-bdd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: irve-bdd
+  template:
+    metadata:
+      labels:
+        app: irve-bdd
+    spec:
+      containers:
+        - name: mariadb
+          image: mariadb:11.4
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MARIADB_DATABASE
+              value: tv_fowet
+            - name: MARIADB_USER
+              value: app_user
+            - name: MARIADB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: irve-db
+                  key: MARIADB_ROOT_PASSWORD
+            - name: MARIADB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: irve-db
+                  key: APP_DB_PASSWORD
+          volumeMounts:
+            - name: donnees
+              mountPath: /var/lib/mysql
+            - name: dump
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: donnees
+          persistentVolumeClaim:
+            claimName: donnees-bdd
+        - name: dump
+          configMap:
+            name: irve-dump

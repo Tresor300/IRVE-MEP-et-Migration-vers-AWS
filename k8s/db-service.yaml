@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: irve-bdd
+spec:
+  selector:
+    app: irve-bdd
+  ports:
+    - port: 3306
+      targetPort: 3306
