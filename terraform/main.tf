@@ -16,3 +16,6 @@ resource "aws_ecr_repository" "irve_app" {
 output "repository_url" {
   value = aws_ecr_repository.irve_app.repository_url
 }
+output "db_endpoint" {
+  value = aws_db_instance.irve.address
+}
