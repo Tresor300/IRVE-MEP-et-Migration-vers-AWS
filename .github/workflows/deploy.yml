@@ -1,0 +1,32 @@
+name: Construire et pousser l'image
+
+on:
+  push:
+    branches: [master]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Obtenir des droits AWS temporaires
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::378436334328:role/github-actions-irve
+          aws-region: eu-west-3
+
+      - name: Se connecter au registre
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Construire et pousser
+        run: |
+          IMAGE=${{ steps.ecr.outputs.registry }}/irve-app:${{ github.sha }}
+          docker build -t $IMAGE .
+          docker push $IMAGE
+          echo "Image poussée : $IMAGE"

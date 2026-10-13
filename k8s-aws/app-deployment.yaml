@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: irve-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: irve-app
+  template:
+    metadata:
+      labels:
+        app: irve-app
+    spec:
+      containers:
+        - name: irve-app
+          image: 378436334328.dkr.ecr.eu-west-3.amazonaws.com/irve-app:v2
+          ports:
+            - containerPort: 80
+          env:
+            - name: DB_HOST
+              value: irve-bdd.cxssk642anq4.eu-west-3.rds.amazonaws.com
+            - name: DB_NAME
+              value: tv_fowet
+            - name: DB_USER
+              value: app_user
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: irve-db
+                  key: APP_DB_PASSWORD
+          readinessProbe:
+            httpGet:
+              path: /health.php
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health.php
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 20
