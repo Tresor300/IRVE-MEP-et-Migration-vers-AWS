@@ -12,11 +12,7 @@ jobs:
   image:
     runs-on: ubuntu-latest
     steps:
-      - name: Diagnostic — identité envoyée par GitHub
-        run: |
-          JETON=$(curl -sS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.amazonaws.com" | jq -r '.value')
-          echo "$JETON" | cut -d. -f2 | base64 -d 2>/dev/null | jq '{sub, aud}'
+      
       - uses: actions/checkout@v4
 
       - name: Obtenir des droits AWS temporaires
