@@ -22,7 +22,7 @@ resource "aws_iam_role" "github_actions" {
           "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
         }
         StringLike = {
-          "token.actions.githubusercontent.com:sub" = "repo:Tresor300/IRVE-MEP-et-Migration-vers-AWS:*"
+            "token.actions.githubusercontent.com:sub" = "repo:Tresor300@202003229/IRVE-MEP-et-Migration-vers-AWS@1379586532:*"
         }
       }
     }]
@@ -36,4 +36,18 @@ resource "aws_iam_role_policy_attachment" "github_ecr" {
 
 output "github_role_arn" {
   value = aws_iam_role.github_actions.arn
+}
+
+resource "aws_iam_role_policy" "github_eks" {
+  name = "lecture-cluster-eks"
+  role = aws_iam_role.github_actions.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect   = "Allow"
+      Action   = "eks:DescribeCluster"
+      Resource = "*"
+    }]
+  })
 }
