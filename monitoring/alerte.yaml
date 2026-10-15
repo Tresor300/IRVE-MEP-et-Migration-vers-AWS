@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: irve-app
+  namespace: supervision
+  labels:
+    release: supervision
+spec:
+  groups:
+    - name: irve
+      rules:
+        - alert: ApplicationInjoignable
+          expr: probe_success == 0
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "L'application IRVE ne répond plus"
+            description: "La page de santé ne renvoie plus de code de succès depuis une minute."
