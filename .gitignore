@@ -5,3 +5,4 @@ awscliv2.zip
 *.tfstate
 *.tfstate.backup
 *.tfvars
+.passwordGrafana
